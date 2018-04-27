@@ -1,0 +1,21 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+use LaravelModule\Controllers\Controller as BaseController;
+
+class Controller extends BaseController
+{
+
+    /**
+     * GET请求入口页面
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getIndex()
+    {
+        return view('module::index');
+    }
+
+}
