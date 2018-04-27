@@ -1,5 +1,11 @@
 # laravel-module
 
+[![Latest Stable Version](https://poser.pugx.org/wangdong/laravel-module/version)](https://packagist.org/packages/wangdong/laravel-module)
+[![Total Downloads](https://poser.pugx.org/wangdong/laravel-module/downloads)](https://packagist.org/packages/wangdong/laravel-module)
+[![Latest Unstable Version](https://poser.pugx.org/wangdong/laravel-module/v/unstable)](//packagist.org/packages/wangdong/laravel-module)
+[![License](https://poser.pugx.org/wangdong/laravel-module/license)](https://packagist.org/packages/wangdong/laravel-module)
+[![composer.lock available](https://poser.pugx.org/wangdong/laravel-module/composerlock)](https://packagist.org/packages/wangdong/laravel-module)
+
 Laravel模块化插件
 
 ```
