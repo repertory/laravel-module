@@ -40,6 +40,23 @@ class Make extends GeneratorCommand
         $name = str_replace_first($this->rootNamespace(), '', $name);
         return dirname($this->laravel['path']) . '/module/' . trim(str_replace('\\', '/', $name), '/') . '/src/Controller.php';
     }
+    
+    protected function qualifyClass($name)
+    {
+        $name = ltrim($name, '\\/');
+
+        $rootNamespace = $this->rootNamespace();
+
+        if (starts_with($name, $rootNamespace)) {
+            return $name;
+        }
+
+        $name = str_replace('/', '\\', $name);
+
+        return $this->qualifyClass(
+            $this->getDefaultNamespace(trim($rootNamespace, '\\')) . '\\' . $name
+        );
+    }
 
     public function handle()
     {
