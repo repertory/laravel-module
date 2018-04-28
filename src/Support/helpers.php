@@ -51,7 +51,7 @@ if (!function_exists('module')) {
         }
 
         $route = collect(array_filter(explode('/', $path)));
-        $subfix = str_replace_first(implode($prefix, '/'), '', $path);
+        $subfix = count($prefix) ? str_replace_first(implode($prefix, '/'), '', $path) : $path;
 
         // 处理默认模块
         if ($route->count() - count($prefix) < 2) {
