@@ -94,6 +94,11 @@ class Make extends GeneratorCommand
                     $this->getNamespace($name) . '\\' => 'src/'
                 ]
             ],
+            'extra' => [
+                'laravel-module' => [
+                    'middleware' => []
+                ]
+            ]
         ], JSON_UNESCAPED_UNICODE)));
 
         @exec('composer dumpautoload');
