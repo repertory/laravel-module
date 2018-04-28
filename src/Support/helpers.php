@@ -1,5 +1,22 @@
 <?php
 
+if (!function_exists('str_replace_first')) {
+    function str_replace_first($search, $replace, $subject)
+    {
+        if ($search == '') {
+            return $subject;
+        }
+
+        $position = strpos($subject, $search);
+
+        if ($position !== false) {
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+
+        return $subject;
+    }
+}
+
 if (!function_exists('module_url')) {
     /**
      * 处理模块路由前缀问题
