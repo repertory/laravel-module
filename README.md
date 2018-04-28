@@ -13,6 +13,9 @@ Laravel模块化插件
 # 安装扩展包
 composer require wangdong/laravel-module
 
+# laravel 5.1 - 5.4需文件`config/app.php`增加providers项
+LaravelModule\ServiceProvider::class,
+
 # 生成配置文件
 php artisan vendor:publish --provider=LaravelModule\ServiceProvider
 ```
