@@ -132,3 +132,17 @@ if (!function_exists('module')) {
         return array_get($modules, "{$group}.{$module}.{$action}", null);
     }
 }
+
+if (!function_exists('module_id')) {
+    /**
+     * 生成html属性id
+     * @param string $key
+     * @param bool $selector
+     * @param string $prefix
+     * @return string
+     */
+    function module_id($key = '', $selector = false, $prefix = 'id')
+    {
+        return implode('', [($selector ? '#' : ''), $prefix, md5(var_export([$_SERVER, $key], true))]);
+    }
+}
