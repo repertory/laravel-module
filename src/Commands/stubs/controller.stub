@@ -3,7 +3,8 @@
 namespace DummyNamespace;
 
 use Illuminate\Http\Request;
-use LaravelModule\Controllers\Controller as BaseController;
+use LaravelModule\Controllers\LaravelController as BaseController;
+//use LaravelModule\Controllers\LumenController as BaseController;
 
 class Controller extends BaseController
 {

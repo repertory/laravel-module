@@ -8,16 +8,29 @@
 
 Laravel模块化插件
 
+> 支持Laravel和Lumen版本 >= 5.1
+
 ## 安装
 ```
 # 安装扩展包
 composer require wangdong/laravel-module
+```
 
+## 初始化
+
+**Laravel**
+```
 # laravel 5.1 - 5.4需文件`config/app.php`增加providers项
 LaravelModule\ServiceProvider::class,
 
 # 生成配置文件
 php artisan vendor:publish --provider=LaravelModule\ServiceProvider
+```
+
+**Lumen**
+```
+# 文件`bootstrap/app.php`增加providers项
+$app->register(LaravelModule\ServiceProvider::class);
 ```
 
 ## 配置

@@ -15,7 +15,7 @@ class ServiceProvider extends Provider
         if ($this->app->runningInConsole()) {
             // 复制文件
             $this->publishes([
-                $path . '/config/module.php' => config_path('module.php'),
+                $path . '/config/module.php' => base_path('config/module.php'),
             ]);
 
             $this->commands([
@@ -48,7 +48,7 @@ class ServiceProvider extends Provider
 
                     // 验证控制器中对应方法是否存在，否则模块路由无效
                     if (method_exists($controller, $action)) {
-                        $router->$method($route, "{$controller}@{$action}")->middleware($middleware);
+                        $router->$method($route, ['uses' => "{$controller}@{$action}", 'middleware' => $middleware]);
                     }
                 });
             }
