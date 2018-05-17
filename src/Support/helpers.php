@@ -60,8 +60,8 @@ if (!function_exists('module')) {
 
         $default = trim(config('module.route.default'), '/');
         $prefix = array_filter(explode('/', trim(config('module.route.prefix', ''), '/'))); // 支持前缀
-        $path = trim($name ? module_url($name) : app('request')->path(), '/');
-
+        $url = $_SERVER ? parse_url($_SERVER["REQUEST_URI"]) : [];
+        $path = trim($name ? module_url($name) : array_get($url, 'path', '/'), '/');
         // 过滤前缀不符合的模块
         if (count($prefix) && !starts_with($path, implode($prefix, '/'))) {
             return null;

@@ -9,11 +9,10 @@ class Controller extends BaseController
 {
 
     /**
-     * GET请求入口页面
-     *
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function getIndex()
+    public function getIndex(Request $request)
     {
         return view('module::index');
     }

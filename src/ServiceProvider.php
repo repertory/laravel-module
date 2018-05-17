@@ -35,9 +35,11 @@ class ServiceProvider extends Provider
                 $this->loadViewsFrom(array_get($module, 'config.view.path'), 'module');
                 $group = [
                     'prefix' => config('module.route.prefix', ''),
-                    'middleware' => Middleware\Module::class
+                    'middleware' => config('module.route.middleware', [])
                 ];
-                $this->app['router']->group($group, function ($router) use ($module) {
+                // 兼容低版本
+                $router = property_exists($this->app, 'router') ? $this->app['router'] : $this->app;
+                $router->group($group, function ($router) use ($module) {
                     $method = array_get($module, 'method');
                     $route = array_get($module, 'route');
                     $controller = array_get($module, 'controller');

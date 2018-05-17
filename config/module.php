@@ -5,6 +5,7 @@ return [
     'route' => [
         'default' => env('MODULE_DEFAULT', 'module/index'),
         'prefix' => env('MODULE_PREFIX', ''),
+        'middleware' => [],
     ],
 
     'parse' => [
