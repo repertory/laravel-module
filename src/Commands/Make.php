@@ -28,6 +28,24 @@ class Make extends GeneratorCommand
         return $rootNamespace;
     }
 
+    /**
+     * Replace the namespace for the given stub.
+     *
+     * @param  string $stub
+     * @param  string $name
+     * @return $this
+     */
+    protected function replaceNamespace(&$stub, $name)
+    {
+        $stub = str_replace('DummyNamespace', $this->getNamespace($name), $stub);
+
+        if (class_exists(\Laravel\Lumen\Application::class)) {
+            $stub = str_replace('LaravelController', 'LumenController', $stub);
+        }
+
+        return $this;
+    }
+
     protected function getNamespace($name)
     {
         return trim(implode('\\', array_map(function ($str) {
@@ -40,7 +58,7 @@ class Make extends GeneratorCommand
         $name = str_replace_first($this->rootNamespace(), '', $name);
         return dirname($this->laravel['path']) . '/module/' . trim(str_replace('\\', '/', $name), '/') . '/src/Controller.php';
     }
-    
+
     protected function qualifyClass($name)
     {
         $name = ltrim($name, '\\/');
