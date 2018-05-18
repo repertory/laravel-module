@@ -16,7 +16,7 @@ class ServiceProvider extends Provider
         if ($this->app->runningInConsole()) {
             // 复制文件
             $this->publishes([
-                $path . '/config/module.php' => base_path('config/module.php'),
+                $path . '/config/module.php' => config_path('module.php'),
             ]);
 
             $this->commands([
