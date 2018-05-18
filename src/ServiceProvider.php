@@ -3,6 +3,7 @@
 namespace LaravelModule;
 
 use Parse\ParseClient;
+use Laravel\Lumen\Application as LumenApplication;
 use Illuminate\Support\ServiceProvider as Provider;
 
 class ServiceProvider extends Provider
@@ -37,8 +38,12 @@ class ServiceProvider extends Provider
                     'prefix' => config('module.route.prefix', ''),
                     'middleware' => config('module.route.middleware', [])
                 ];
-                // 兼容低版本
-                $router = property_exists($this->app, 'router') ? $this->app['router'] : $this->app;
+
+                // 兼容不同版本路由
+                $router = $this->app['router'];
+                if ($this->app instanceof LumenApplication && !property_exists($this->app, 'router')) {
+                    $router = $this->app;
+                }
                 $router->group($group, function ($router) use ($module) {
                     $method = array_get($module, 'method');
                     $route = array_get($module, 'route');
