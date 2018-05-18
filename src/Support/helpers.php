@@ -144,7 +144,7 @@ if (!function_exists('module_config')) {
     {
         $module = module();
         $keys = array_merge(['module', 'modules'], explode('/', array_get($module, 'name', config('module.route.default'))));
-        $config = config(implode('.', $keys));
+        $config = config(implode('.', $keys), []);
 
         if (is_null($key)) {
             return $config;
