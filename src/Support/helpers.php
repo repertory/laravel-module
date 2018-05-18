@@ -133,16 +133,36 @@ if (!function_exists('module')) {
     }
 }
 
-if (!function_exists('module_id')) {
+if (!function_exists('module_config')) {
     /**
-     * 生成html属性id
-     * @param string $key
-     * @param bool $selector
+     * 获取当前模块下的配置
+     * @param null|string $key
+     * @param mixed $default
+     * @return \Illuminate\Config\Repository|mixed
+     */
+    function module_config($key = null, $default = null)
+    {
+        $module = module();
+        $keys = array_merge(['module', 'modules'], explode('/', array_get($module, 'name', config('module.route.default'))));
+        $config = config(implode('.', $keys));
+
+        if (is_null($key)) {
+            return $config;
+        }
+
+        return array_get($config, $key, $default);
+    }
+}
+
+if (!function_exists('request_id')) {
+    /**
+     * 根据每次请求生成的唯一ID
+     * @param mixed $group
      * @param string $prefix
      * @return string
      */
-    function module_id($key = '', $selector = false, $prefix = 'id')
+    function request_id($group = null, $prefix = '')
     {
-        return implode('', [($selector ? '#' : ''), $prefix, md5(var_export([$_SERVER, $key], true))]);
+        return implode('', [$prefix, md5(var_export([$_SERVER, $group], true))]);
     }
 }

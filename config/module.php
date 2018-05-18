@@ -8,6 +8,16 @@ return [
         'middleware' => [],
     ],
 
+    // 模块配置，可通过module_config方法获取
+    'modules' => [
+        // TODO 按照group_name/module_name格式配置
+        'module' => [
+            'index' => [
+                //
+            ]
+        ]
+    ],
+
     'parse' => [
         'app_id' => env('PARSE_APPID', ''),
         'rest_key' => env('PARSE_REST_KEY', ''),
