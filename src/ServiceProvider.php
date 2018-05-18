@@ -16,7 +16,7 @@ class ServiceProvider extends Provider
         if ($this->app->runningInConsole()) {
             // 复制文件
             $this->publishes([
-                $path . '/config/module.php' => config_path('module.php'),
+                $path . '/config/module.php' => base_path('config/module.php'),
             ]);
 
             $this->commands([
@@ -40,9 +40,10 @@ class ServiceProvider extends Provider
                 ];
 
                 // 兼容不同版本路由
-                $router = $this->app['router'];
                 if ($this->app instanceof LumenApplication && !property_exists($this->app, 'router')) {
                     $router = $this->app;
+                } else {
+                    $router = $this->app['router'];
                 }
                 $router->group($group, function ($router) use ($module) {
                     $method = array_get($module, 'method');
