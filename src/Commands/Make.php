@@ -2,6 +2,7 @@
 
 namespace LaravelModule\Commands;
 
+use Laravel\Lumen\Application as LumenApplication;
 use Illuminate\Console\GeneratorCommand;
 
 class Make extends GeneratorCommand
@@ -77,6 +78,7 @@ class Make extends GeneratorCommand
 
         $this->makeDirectory($path);
         $this->makeDirectory($view);
+        $this->files->copy(dirname(dirname(__DIR__)) . '/.editorconfig', dirname(dirname($path)) . '/.editorconfig');
         $this->files->put($path, $this->buildClass($name));
         $this->files->put($view, $this->getNameInput());
         $this->files->put($composer, str_replace('\/', '/', json_encode([
@@ -96,7 +98,18 @@ class Make extends GeneratorCommand
             ],
             'extra' => [
                 'laravel-module' => [
-                    'middleware' => []
+                    'config' => [
+                        'name' => strtolower($this->getNameInput())
+                    ],
+                    'info' => [
+                        'time' => date('c'),
+                        'from' => [
+                            'php' => PHP_VERSION,
+                            'framework' => (app() instanceof LumenApplication) ? 'lumen' : 'laravel',
+                            'version' => app()->version(),
+                        ],
+                    ],
+                    'middleware' => [],
                 ]
             ]
         ], JSON_UNESCAPED_UNICODE)));

@@ -5,7 +5,7 @@ return [
     'route' => [
         'default' => env('MODULE_DEFAULT', 'module/index'),
         'prefix' => env('MODULE_PREFIX', ''),
-        'middleware' => [],
+        'middleware' => env('MODULE_MIDDLEWARE', []),
     ],
 
     // 模块配置，可通过module_config方法获取

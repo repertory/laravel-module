@@ -29,11 +29,11 @@ class ServiceProvider extends Provider
                 if (config('module.route.default')) {
                     $default = module(config('module.route.default'));
                     if ($default) {
-                        $this->loadViewsFrom(array_get($default, 'config.view.path'), 'module.default');
+                        $this->loadViewsFrom(array_get($default, 'viewpath'), 'module.default');
                     }
                 }
                 // 当前模块
-                $this->loadViewsFrom(array_get($module, 'config.view.path'), 'module');
+                $this->loadViewsFrom(array_get($module, 'viewpath'), 'module');
                 $group = [
                     'prefix' => config('module.route.prefix', ''),
                     'middleware' => config('module.route.middleware', [])

@@ -26,10 +26,10 @@ if (!function_exists('module_url')) {
     function module_url($url = '')
     {
         $url = trim($url, '/');
-        if (!config('module.route.prefix')) {
+        if (!config('module.route.prefix') && !config('module.route.default')) {
             return '/' . $url;
         }
-        $prefix = explode('/', trim(config('module.route.prefix'), '/'));
+        $prefix = explode('/', trim(config('module.route.prefix', ''), '/'));
         $urls = explode('/', $url);
         $count = count($prefix);
         for ($i = 0; $i < $count; $i++) {
@@ -42,7 +42,17 @@ if (!function_exists('module_url')) {
                 $urls = array_prepend($urls, $prefix[$i - 1]);
             }
         }
-        return '/' . implode('/', $urls);
+
+        // 去除默认模块前缀
+        $prefixCount = count($prefix);
+        if (config('module.route.default') && (count($urls) - $prefixCount >= 2)) {
+            $routeDefault = explode('/', trim(config('module.route.default'), '/'));
+
+            if ($urls[$prefixCount] == $routeDefault[0] && $urls[$prefixCount + 1] == $routeDefault[1]) {
+                array_splice($urls, $prefixCount, count($routeDefault));
+            }
+        }
+        return '/' . implode('/', array_filter($urls));
     }
 }
 
@@ -61,7 +71,7 @@ if (!function_exists('module')) {
         $default = trim(config('module.route.default'), '/');
         $prefix = array_filter(explode('/', trim(config('module.route.prefix', ''), '/'))); // 支持前缀
         $url = $_SERVER ? parse_url($_SERVER["REQUEST_URI"]) : [];
-        $path = trim($name ? module_url($name) : array_get($url, 'path', '/'), '/');
+        $path = trim($name ?: array_get($url, 'path', '/'), '/');
         // 过滤前缀不符合的模块
         if (count($prefix) && !starts_with($path, implode($prefix, '/'))) {
             return null;
@@ -123,11 +133,7 @@ if (!function_exists('module')) {
             'module' => $module,
             'action' => $action,
             'composer' => $composer,
-            'config' => [
-                'view' => [
-                    'path' => realpath($path . '/views'),
-                ],
-            ],
+            'viewpath' => realpath($path . '/views'),
         ]);
         return array_get($modules, "{$group}.{$module}.{$action}", null);
     }
@@ -143,8 +149,10 @@ if (!function_exists('module_config')) {
     function module_config($key = null, $default = null)
     {
         $module = module();
-        $keys = array_merge(['module', 'modules'], explode('/', array_get($module, 'name', config('module.route.default'))));
-        $config = config(implode('.', $keys), []);
+        $keys = array_merge(['module', 'modules'], explode('/', array_get($module, 'name')));
+
+        $moduleConfig = array_get($module, 'composer.extra.laravel-module.config', []);
+        $config = array_merge($moduleConfig, config(implode('.', $keys), []));
 
         if (is_null($key)) {
             return $config;
