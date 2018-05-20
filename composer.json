@@ -1,6 +1,13 @@
 {
   "name": "wangdong/laravel-module",
   "description": "Laravel扩展包",
+  "keywords": [
+    "wangdong",
+    "module",
+    "laravel",
+    "lumen",
+    "laravel-module"
+  ],
   "type": "library",
   "license": "MIT",
   "authors": [
