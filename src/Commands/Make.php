@@ -101,7 +101,9 @@ class Make extends GeneratorCommand
                     'config' => [
                         'name' => strtolower($this->getNameInput())
                     ],
-                    'info' => [
+                    'middleware' => [],
+                    'module' => [
+                        'name' => strtolower($this->getNameInput()),
                         'time' => date('c'),
                         'from' => [
                             'php' => PHP_VERSION,
@@ -109,7 +111,6 @@ class Make extends GeneratorCommand
                             'version' => app()->version(),
                         ],
                     ],
-                    'middleware' => [],
                 ]
             ]
         ], JSON_UNESCAPED_UNICODE)));
