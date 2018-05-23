@@ -23,11 +23,12 @@ if (!function_exists('module_url')) {
      * @param string $url
      * @return string
      */
-    function module_url($url = '')
+    function module_url($url = '', $param = [])
     {
+        $queryString = http_build_query($param);
         $url = trim($url, '/');
         if (!config('module.route.prefix') && !config('module.route.default')) {
-            return '/' . $url;
+            return '/' . $url . ($queryString ? '?' . $queryString : '');
         }
         $prefix = explode('/', trim(config('module.route.prefix', ''), '/'));
         $urls = explode('/', $url);
@@ -52,7 +53,7 @@ if (!function_exists('module_url')) {
                 array_splice($urls, $prefixCount, count($routeDefault));
             }
         }
-        return '/' . implode('/', array_filter($urls));
+        return '/' . implode('/', array_filter($urls)) . ($queryString ? '?' . $queryString : '');;
     }
 }
 
@@ -144,11 +145,12 @@ if (!function_exists('module_config')) {
      * 获取当前模块下的配置
      * @param null|string $key
      * @param mixed $default
+     * @param string $name
      * @return \Illuminate\Config\Repository|mixed
      */
-    function module_config($key = null, $default = null)
+    function module_config($key = null, $default = null, $name = '')
     {
-        $module = module();
+        $module = module($name);
         $keys = array_merge(['module', 'modules'], explode('/', array_get($module, 'name')));
 
         $moduleConfig = array_get($module, 'composer.extra.laravel-module.config', []);
@@ -171,6 +173,20 @@ if (!function_exists('request_id')) {
      */
     function request_id($group = null, $prefix = '')
     {
-        return implode('', [$prefix, md5(var_export([$_SERVER, $group], true))]);
+        static $caches = [];
+
+        $group = var_export($group, true);
+        $cache = null;
+
+        if (array_has($caches, $group)) {
+            $cache = array_get($caches, $group);
+        }
+
+        if (!$cache) {
+            $cache = md5(var_export([$_SERVER, $group], true));
+            array_set($caches, $group, $cache);
+        }
+
+        return implode('', [$prefix, $cache]);
     }
 }
