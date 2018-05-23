@@ -19,12 +19,13 @@ class ServiceProvider extends Provider
                 $path . '/config/module.php' => base_path('config/module.php'),
             ]);
 
-            $this->commands([
-                Commands\Make::class,
-            ]);
+            $this->commands([Commands\Make::class]);
+            $this->commands(config('module.commands', []));
         } else {
             $module = module();
             if ($module) {
+                header('X-Request-Id: ' . request_id());
+
                 // 默认模块
                 if (config('module.route.default')) {
                     $default = module(config('module.route.default'));
