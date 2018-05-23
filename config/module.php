@@ -5,8 +5,11 @@ return [
     'route' => [
         'default' => env('MODULE_DEFAULT', 'module/index'),
         'prefix' => env('MODULE_PREFIX', ''),
-        'middleware' => env('MODULE_MIDDLEWARE', []),
+        'middleware' => [],
     ],
+
+    // 命令配置
+    'commands' => [],
 
     // 模块配置，可通过module_config方法获取
     'modules' => [
