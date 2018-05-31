@@ -2,7 +2,6 @@
 
 namespace LaravelModule;
 
-use Parse\ParseClient;
 use Laravel\Lumen\Application as LumenApplication;
 use Illuminate\Support\ServiceProvider as Provider;
 
@@ -59,13 +58,6 @@ class ServiceProvider extends Provider
                     }
                 });
             }
-        }
-
-        // 初始化Parse
-        $parse = config('module.parse', []);
-        if (array_get($parse, 'app_id') && array_get($parse, 'server_url')) {
-            ParseClient::initialize(array_get($parse, 'app_id'), array_get($parse, 'rest_key'), array_get($parse, 'master_key'));
-            ParseClient::setServerURL(array_get($parse, 'server_url'), array_get($parse, 'mount_path'));
         }
     }
 
