@@ -8,6 +8,9 @@ return [
         'middleware' => [],
     ],
 
+    // 复制文件
+    'publishes' => [],
+
     // 命令配置
     'commands' => [],
 

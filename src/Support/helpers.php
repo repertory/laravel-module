@@ -20,11 +20,22 @@ if (!function_exists('str_replace_first')) {
 if (!function_exists('module_url')) {
     /**
      * 处理模块路由前缀问题
-     * @param string $url
+     * @param string|array $url
+     * @param array $param
      * @return string
+     * @throws ReflectionException
      */
     function module_url($url = '', $param = [])
     {
+        if (is_array($url)) {
+            $module = module(join('/', array_filter([
+                snake_case(array_get($url, 'group', '')),
+                snake_case(array_get($url, 'module', '')),
+                last(explode('_', snake_case(array_get($url, 'action', '')), 2))
+            ])));
+            $url = array_get($module, 'url', '');
+        }
+
         $queryString = http_build_query($param);
         $url = trim($url, '/');
         if (!config('module.route.prefix') && !config('module.route.default')) {
@@ -56,6 +67,7 @@ if (!function_exists('module_url')) {
         return '/' . implode('/', array_filter($urls)) . ($queryString ? '?' . $queryString : '');;
     }
 }
+
 
 if (!function_exists('module')) {
     /**
