@@ -81,7 +81,7 @@ class Make extends GeneratorCommand
         $this->files->copy(dirname(dirname(__DIR__)) . '/.editorconfig', dirname(dirname($path)) . '/.editorconfig');
         $this->files->put($path, $this->buildClass($name));
         $this->files->put($view, $this->getNameInput());
-        $this->files->put($composer, str_replace('\/', '/', json_encode([
+        $this->files->put($composer, json_encode([
             'name' => strtolower($this->getNameInput()),
             'description' => 'module for laravel-module',
             'type' => 'laravel-module',
@@ -113,7 +113,7 @@ class Make extends GeneratorCommand
                     ],
                 ]
             ]
-        ], JSON_UNESCAPED_UNICODE)));
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 
         @exec('composer dumpautoload');
         $this->info($this->type . ' created successfully.');
