@@ -176,6 +176,20 @@ if (!function_exists('module_config')) {
     }
 }
 
+if (!function_exists('module_path')) {
+    /**
+     * 获取模块文件路径
+     * @param string $name
+     * @param string $path
+     * @return string
+     * @throws ReflectionException
+     */
+    function module_path($name = '', $path = '')
+    {
+        return array_get(module($name), 'path', '') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+    }
+}
+
 if (!function_exists('request_id')) {
     /**
      * 根据每次请求生成的唯一ID
