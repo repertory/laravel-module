@@ -8,10 +8,10 @@ return [
         'middleware' => [],
     ],
 
-    // 复制文件
+    // 复制文件(支持闭包)
     'publishes' => [],
 
-    // 命令配置
+    // 命令配置(支持闭包)
     'commands' => [],
 
     // 模块配置，可通过module_config方法获取

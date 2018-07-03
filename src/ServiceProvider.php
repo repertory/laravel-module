@@ -2,6 +2,7 @@
 
 namespace LaravelModule;
 
+use Closure;
 use Laravel\Lumen\Application as LumenApplication;
 use Illuminate\Support\ServiceProvider as Provider;
 
@@ -17,10 +18,16 @@ class ServiceProvider extends Provider
             $this->publishes([
                 $path . '/config/module.php' => base_path('config/module.php'),
             ]);
-            $this->publishes(config('module.publishes', []));
+            $publishes = config('module.publishes', []);
+            $this->publishes($publishes instanceof Closure ? $publishes() : $publishes);
 
-            $this->commands([Commands\Make::class]);
-            $this->commands(config('module.commands', []));
+            $this->commands([
+                Commands\Init::class,
+                Commands\Make::class,
+                Commands\Publish::class,
+            ]);
+            $commands = config('module.commands', []);
+            $this->commands($commands instanceof Closure ? $commands() : $commands);
         } else {
             $module = module();
             if ($module) {
