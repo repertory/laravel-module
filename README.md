@@ -50,5 +50,5 @@ $app->register(LaravelModule\ServiceProvider::class);
 > 生成默认模块
 
 ```
-php artisan make:module module/index
+php artisan module:init module/index
 ```

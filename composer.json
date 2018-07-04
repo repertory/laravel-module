@@ -1,44 +1,44 @@
 {
-  "name": "wangdong/laravel-module",
-  "description": "Laravel扩展包",
-  "keywords": [
-    "wangdong",
-    "module",
-    "laravel",
-    "lumen",
-    "laravel-module"
-  ],
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "wangdong",
-      "email": "mail@wangdong.io"
-    }
-  ],
-  "require": {
-    "illuminate/console": "~5.1",
-    "illuminate/support": "~5.1"
-  },
-  "suggest": {
-    "wangdong/laravel-module-easyui": "基于wangdong/laravel-module的项目"
-  },
-  "autoload": {
-    "files": [
-      "src/Support/helpers.php"
+    "name": "wangdong/laravel-module",
+    "description": "Laravel扩展包",
+    "keywords": [
+        "wangdong",
+        "module",
+        "laravel",
+        "lumen",
+        "laravel-module"
     ],
-    "psr-4": {
-      "LaravelModule\\": "src/"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.3.x-dev"
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "wangdong",
+            "email": "mail@wangdong.io"
+        }
+    ],
+    "require": {
+        "illuminate/console": "~5.1",
+        "illuminate/support": "~5.1"
     },
-    "laravel": {
-      "providers": [
-        "LaravelModule\\ServiceProvider"
-      ]
+    "suggest": {
+        "wangdong/laravel-module-easyui": "基于wangdong/laravel-module的项目"
+    },
+    "autoload": {
+        "files": [
+            "src/Support/helpers.php"
+        ],
+        "psr-4": {
+            "LaravelModule\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.3.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "LaravelModule\\ServiceProvider"
+            ]
+        }
     }
-  }
 }
