@@ -24,7 +24,7 @@ composer require wangdong/laravel-module
 LaravelModule\ServiceProvider::class,
 
 # 生成配置文件
-php artisan vendor:publish --provider=LaravelModule\\ServiceProvider
+php artisan module:publish
 ```
 
 **Lumen**
