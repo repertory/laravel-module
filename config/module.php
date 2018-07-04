@@ -4,7 +4,7 @@ return [
     // 路由配置
     'route' => [
         'default' => env('MODULE_DEFAULT', 'module/index'),
-        'prefix' => env('MODULE_PREFIX', ''),
+        'prefix' => env('MODULE_PREFIX', ''), // TODO 留空时需要屏蔽默认的首页路由
         'middleware' => [],
     ],
 
@@ -16,7 +16,7 @@ return [
 
     // 模块配置，可通过module_config方法获取
     'modules' => [
-        // TODO 按照group_name/module_name格式配置
+        // TODO 按照group_name/module_name格式配置(覆盖composer.json > extra.laravel-module.config)
         'module' => [
             'index' => [
                 //
