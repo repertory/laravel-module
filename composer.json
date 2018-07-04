@@ -21,7 +21,7 @@
     "illuminate/support": "~5.1"
   },
   "suggest": {
-    "wangdong/laravel-parse": ""
+    "wangdong/laravel-module-easyui": "基于wangdong/laravel-module的项目"
   },
   "autoload": {
     "files": [
