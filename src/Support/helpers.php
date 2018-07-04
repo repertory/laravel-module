@@ -44,10 +44,11 @@ if (!function_exists('module_url')) {
         $prefix = explode('/', trim(config('module.route.prefix', ''), '/'));
         $urls = explode('/', $url);
         $count = count($prefix);
-        for ($i = 0; $i < $count; $i++) {
-            if ($prefix[$i] == $urls[$i]) {
-                $count--;
+        for ($i = 0; $i < count($prefix); $i++) {
+            if ($prefix[$i] != $urls[$i]) {
+                break;
             }
+            $count--;
         }
         if ($count) {
             for ($i = $count; $i > 0; $i--) {
@@ -95,7 +96,7 @@ if (!function_exists('module')) {
 
         // 处理默认模块
         if ($route->count() - count($prefix) < 2) {
-            return $default ? module(join('/', [$default, trim($subfix, '/')])) : null;
+            return $default ? module(join('/', array_filter(array_merge([], $prefix, [$default], [trim($subfix, '/')])))) : null;
         }
 
         // 模块名与当前url
