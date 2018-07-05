@@ -108,7 +108,7 @@ if (!function_exists('module')) {
             $url = $route->get(count($prefix) + 2) ? "{$name}/{$route->get(count($prefix) + 2)}" : $name;
         }
         // 请求方式，默认为get
-        $method = $method ?: app('request')->method();
+        $method = $method ?: (!empty($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'get');
         $method = strtolower($method);
         // 控制器参数
         $group = studly_case(strtolower($route->get(count($prefix))));
