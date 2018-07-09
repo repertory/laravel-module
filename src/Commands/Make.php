@@ -115,7 +115,6 @@ class Make extends GeneratorCommand
             ]
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 
-        @exec('composer dumpautoload');
         $this->info($this->type . ' created successfully.');
     }
 
