@@ -33,21 +33,9 @@ php artisan module:publish
 $app->register(LaravelModule\ServiceProvider::class);
 ```
 
-## 配置
+## 开发
 
-> laravel目录创建`module`文件夹，然后修改`composer.json`
-
-```
-"autoload": {
-  "classmap": [
-    "module"
-  ]
-}
-```
-
-## 生成
-
-> 生成默认模块
+> 生成模块
 
 ```
 php artisan module:init module/index
