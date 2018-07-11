@@ -12,7 +12,7 @@ Laravel模块化插件
 
 ## 配置
 
-1. 安装
+1. 安装
     ```
     composer require wangdong/laravel-module
     ```
