@@ -13,6 +13,7 @@ Laravel模块化插件
 ## 配置
 
 1. 安装
+
     ```
     composer require wangdong/laravel-module
     ```
@@ -32,6 +33,7 @@ Laravel模块化插件
     ```
 
 3. 复制
+
     ```
     php artisan module:publish
     ```
