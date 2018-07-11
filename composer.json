@@ -10,15 +10,14 @@
     ],
     "type": "library",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "wangdong",
-            "email": "mail@wangdong.io"
-        }
-    ],
+    "authors": [{
+        "name": "wangdong",
+        "email": "mail@wangdong.io"
+    }],
     "require": {
         "illuminate/console": "~5.1",
-        "illuminate/support": "~5.1"
+        "illuminate/support": "~5.1",
+        "league/flysystem": "^1.0"
     },
     "suggest": {
         "wangdong/laravel-module-easyui": "基于wangdong/laravel-module的项目"
