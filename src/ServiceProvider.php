@@ -42,7 +42,13 @@ class ServiceProvider extends Provider
                     } else {
                         $router = $this->app['router'];
                     }
-                    call_user_func_array(config('module.router'), [$router, $module]);
+                    $group = [
+                        'prefix' => config('module.route.prefix', ''),
+                        'middleware' => config('module.route.middleware', [])
+                    ];
+                    $router->group($group, function ($router) use ($module) {
+                        call_user_func_array(config('module.router'), [$router, $module]);
+                    });
                 }
             }
         }
