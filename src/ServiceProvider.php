@@ -31,38 +31,19 @@ class ServiceProvider extends Provider
         } else {
             $module = module();
             if ($module) {
-                // 默认模块
-                if (config('module.route.default')) {
-                    $default = module(config('module.route.default'));
-                    if ($default) {
-                        $this->loadViewsFrom(array_get($default, 'viewpath'), 'module.default');
-                    }
-                }
                 // 当前模块
                 $this->loadViewsFrom(array_get($module, 'viewpath'), 'module');
-                $group = [
-                    'prefix' => config('module.route.prefix', ''),
-                    'middleware' => config('module.route.middleware', [])
-                ];
 
-                // 兼容不同版本路由
-                if ($this->app instanceof LumenApplication && !property_exists($this->app, 'router')) {
-                    $router = $this->app;
-                } else {
-                    $router = $this->app['router'];
-                }
-                $router->group($group, function ($router) use ($module) {
-                    $method = array_get($module, 'method');
-                    $route = array_get($module, 'route');
-                    $controller = array_get($module, 'controller');
-                    $action = array_get($module, 'action');
-                    $middleware = array_get($module, 'composer.extra.laravel-module.middleware', []);
-
-                    // 验证控制器中对应方法是否存在，否则模块路由无效
-                    if (method_exists($controller, $action)) {
-                        $router->$method($route, ['uses' => "{$controller}@{$action}", 'middleware' => $middleware]);
+                // 支持自定义路由
+                if (config('module.router') instanceof Closure) {
+                    // 兼容不同版本路由
+                    if ($this->app instanceof LumenApplication && !property_exists($this->app, 'router')) {
+                        $router = $this->app;
+                    } else {
+                        $router = $this->app['router'];
                     }
-                });
+                    call_user_func_array(config('module.router'), [$router, $module]);
+                }
             }
         }
     }
