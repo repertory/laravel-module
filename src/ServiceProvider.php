@@ -19,7 +19,7 @@ class ServiceProvider extends Provider
                 $path . '/config/module.php' => base_path('config/module.php'),
             ]);
             $publishes = config('module.publishes', []);
-            $this->publishes($publishes instanceof Closure ? $publishes() : $publishes);
+            $this->publishes($publishes instanceof Closure ? call_user_func($publishes) : $publishes);
 
             $this->commands([
                 Commands\Init::class,
@@ -27,7 +27,7 @@ class ServiceProvider extends Provider
                 Commands\Publish::class,
             ]);
             $commands = config('module.commands', []);
-            $this->commands($commands instanceof Closure ? $commands() : $commands);
+            $this->commands($commands instanceof Closure ? call_user_func($commands) : $commands);
         } else {
             $module = module();
             if ($module) {
