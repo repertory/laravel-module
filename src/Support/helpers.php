@@ -17,6 +17,19 @@ if (!function_exists('str_replace_first')) {
     }
 }
 
+if (!function_exists('config_path')) {
+    /**
+     * Get the configuration path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    function config_path($path = '')
+    {
+        return base_path('config' . DIRECTORY_SEPARATOR . $path);
+    }
+}
+
 if (!function_exists('module_url')) {
     /**
      * 处理模块路由前缀问题
