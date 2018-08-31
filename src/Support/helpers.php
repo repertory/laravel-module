@@ -46,6 +46,9 @@ if (!function_exists('module_url')) {
             return '/' . $url . ($queryString ? '?' . $queryString : '');
         }
         $prefix = explode('/', trim(config('module.route.prefix', ''), '/'));
+        if (count($prefix) && count(explode('/', $url)) == 2) {
+            $url = implode(array_merge($prefix, [$url]), '/');
+        }
         $urls = explode('/', $url);
         $count = count($prefix);
         for ($i = 0; $i < count($prefix); $i++) {
@@ -88,6 +91,9 @@ if (!function_exists('module')) {
         $default = trim(config('module.route.default'), '/');
         $prefix = array_filter(explode('/', trim(config('module.route.prefix', ''), '/'))); // 支持前缀
         $url = !empty($_SERVER['REQUEST_URI']) ? parse_url($_SERVER['REQUEST_URI']) : [];
+        if (count($prefix) && count(explode('/', $name)) == 2) {
+            $name = implode(array_merge($prefix, [$name]), '/');
+        }
         $path = trim($name ? : array_get($url, 'path', '/'), '/');
 
         // 前缀处理
@@ -95,7 +101,7 @@ if (!function_exists('module')) {
             $path = module_url($path);
         }
 
-        $route = collect(array_filter(explode('/', $path)));
+        $route = collect(array_filter(explode('/', $path)))->values();
         $subfix = count($prefix) ? str_replace_first(implode($prefix, '/'), '', $path) : $path;
 
         // 处理默认模块
