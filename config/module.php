@@ -55,6 +55,26 @@ return [
     // 命令配置(支持闭包)
     'commands' => [],
 
+    // 扩展配置
+    'macros' => [
+//        LaravelModule\Controllers\LumenController::class => [
+//            'success' => function ($data, $status = 200, array $headers = [], $options = 0) {
+//                return response()->json(['data' => $data, 'status' => 'success'], $status, $headers, $options);
+//            },
+//            'error' => function ($data = '', $status = 422, array $headers = [], $options = 0) {
+//                return response()->json(['message' => $data, 'status' => 'error'], $status, $headers, $options);
+//            }
+//        ],
+//        LaravelModule\Controllers\LaravelController::class => [
+//            'success' => function ($data, $status = 200, array $headers = [], $options = 0) {
+//                return response()->json(['data' => $data, 'status' => 'success'], $status, $headers, $options);
+//            },
+//            'error' => function ($data = '', $status = 422, array $headers = [], $options = 0) {
+//                return response()->json(['message' => $data, 'status' => 'error'], $status, $headers, $options);
+//            }
+//        ]
+    ],
+
     // 模块配置，可通过module_config方法获取
     'modules' => [
         // TODO 按照group_name/module_name格式配置(覆盖composer.json > extra.laravel-module.config)

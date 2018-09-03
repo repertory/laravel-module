@@ -13,6 +13,18 @@ class ServiceProvider extends Provider
     {
         $path = dirname(__DIR__);  // 根路径
 
+        // 支持macro扩展
+        if (config('module.macros')) {
+            foreach (config('module.macros') as $class => $macro) {
+                if (class_exists($class) && method_exists($class, 'macro')) {
+                    foreach ($macro as $method => $closure) {
+                        app($class)->macro($method, $closure);
+                    }
+                }
+            }
+        }
+
+        // 加载模块
         if ($this->app->runningInConsole()) {
             // 复制文件
             $this->publishes([
