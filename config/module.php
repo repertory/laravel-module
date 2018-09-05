@@ -57,22 +57,14 @@ return [
 
     // 扩展配置
     'macros' => [
-//        LaravelModule\Controllers\LumenController::class => [
-//            'success' => function ($data, $status = 200, array $headers = [], $options = 0) {
-//                return response()->json(['data' => $data, 'status' => 'success'], $status, $headers, $options);
+//        LaravelModule\Controllers\Controller::class => [
+//            'success' => function ($data, $status = 200) {
+//                return response()->json(['data' => $data, 'status' => 'success'], $status);
 //            },
-//            'error' => function ($data = '', $status = 422, array $headers = [], $options = 0) {
-//                return response()->json(['message' => $data, 'status' => 'error'], $status, $headers, $options);
+//            'error' => function ($data = '', $status = 422) {
+//                return response()->json(['message' => $data, 'status' => 'error'], $status);
 //            }
 //        ],
-//        LaravelModule\Controllers\LaravelController::class => [
-//            'success' => function ($data, $status = 200, array $headers = [], $options = 0) {
-//                return response()->json(['data' => $data, 'status' => 'success'], $status, $headers, $options);
-//            },
-//            'error' => function ($data = '', $status = 422, array $headers = [], $options = 0) {
-//                return response()->json(['message' => $data, 'status' => 'error'], $status, $headers, $options);
-//            }
-//        ]
     ],
 
     // 模块配置，可通过module_config方法获取
