@@ -75,6 +75,7 @@ class Make extends GeneratorCommand
         $path = $this->getPath($name);
         $composer = dirname(dirname($path)) . '/composer.json';
         $view = dirname(dirname($path)) . '/views/index.blade.php';
+        $readme = dirname(dirname($path)) . '/readme.md';
 
         $this->makeDirectory($path);
         $this->makeDirectory($view);
@@ -114,6 +115,7 @@ class Make extends GeneratorCommand
                 ]
             ]
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        $this->files->put($readme, '# README' . PHP_EOL);
 
         $this->info($this->type . ' created successfully.');
     }
