@@ -68,22 +68,13 @@ class ServiceProvider extends Provider
 
     public function register()
     {
-        // 自动加载模块中的类
-        spl_autoload_register([$this, 'loadModule'], true, false);
-
         $path = dirname(__DIR__);  // 根路径
         $this->mergeConfigFrom($path . '/config/module.php', 'module');
-    }
 
-    public function loadModule($class)
-    {
-        if (starts_with($class, 'Module\\')) {
-            $paths = explode('\\', $class, 4);
-            $subfix = explode('\\', array_pop($paths));
-            $file = base_path(implode(DIRECTORY_SEPARATOR, array_merge(array_map('snake_case', $paths), ['src'], $subfix)) . '.php');
-
-            file_exists($file) && include_once $file;
-            return true;
+        // 自动加载
+        $autoload = config('module.autoload', '');
+        if (is_array($autoload) || $autoload instanceof Closure) {
+            spl_autoload_register($autoload, true, false);
         }
     }
 
