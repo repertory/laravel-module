@@ -15,7 +15,7 @@ return [
 
         // Controller路由
         $method = strtolower($_SERVER['REQUEST_METHOD']);
-        $action = camel_case(implode('_', [$method, array_first(array_get($module, 'subfix')) ? : 'index']));
+        $action = camel_case(implode('_', [$method, array_first(array_get($module, 'subfix')) ?: 'index']));
         if (method_exists($controller, $action)) {
             $route = array_get($module, 'route');
             $router->$method($route, ['uses' => "{$controller}@{$action}", 'middleware' => $middleware]);
@@ -57,15 +57,37 @@ return [
 
     // 扩展配置
     'macros' => [
-//        LaravelModule\Controllers\Controller::class => [
-//            'success' => function ($data, $status = 200) {
-//                return response()->json(['data' => $data, 'status' => 'success'], $status);
-//            },
-//            'error' => function ($data = '', $status = 422) {
-//                return response()->json(['message' => $data, 'status' => 'error'], $status);
-//            }
-//        ],
+        LaravelModule\Controllers\Controller::class => [
+            'response' => function ($content = '', $status = 200, array $headers = []) {
+                return response($content, $status, $headers);
+            },
+            'request' => function ($key = null, $default = null) {
+                if (is_null($key)) {
+                    return app('request');
+                }
+
+                if (is_array($key)) {
+                    return app('request')->only($key);
+                }
+
+                $value = app('request')->__get($key);
+
+                return is_null($value) ? value($default) : $value;
+            }
+        ],
     ],
+
+    // 自动加载
+    'autoload' => function ($class) {
+        if (starts_with($class, 'Module\\')) {
+            $path = explode('\\', $class, 4);
+            $name = explode('\\', array_pop($path));
+            $file = base_path(
+                implode(DIRECTORY_SEPARATOR, array_merge(array_map('snake_case', $path), ['src'], $name)) . '.php'
+            );
+            file_exists($file) && include_once $file;
+        }
+    },
 
     // 模块配置，可通过module_config方法获取
     'modules' => [
