@@ -59,7 +59,17 @@ return [
     'macros' => [
         LaravelModule\Controllers\Controller::class => [
             'response' => function ($content = '', $status = 200, array $headers = []) {
-                return response($content, $status, $headers);
+                $class = class_exists(Illuminate\Routing\ResponseFactory::class) ?
+                    Illuminate\Routing\ResponseFactory::class :
+                    Laravel\Lumen\Http\ResponseFactory::class;
+
+                $factory = app($class);
+
+                if (func_num_args() === 0) {
+                    return $factory;
+                }
+
+                return $factory->make($content, $status, $headers);
             },
             'request' => function ($key = null, $default = null) {
                 if (is_null($key)) {
