@@ -1,6 +1,6 @@
 {
     "name": "wangdong/laravel-module",
-    "description": "Laravel模块化(附带打通lumen和laravel及不同版本限制)",
+    "description": "Laravel模块化 (附带打通lumen和laravel及不同版本限制)",
     "keywords": [
         "wangdong",
         "module",
