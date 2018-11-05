@@ -21,33 +21,30 @@ return [
             $router->$method($route, ['uses' => "{$controller}@{$action}", 'middleware' => $middleware]);
         }
 
-        // RESTful路由
-        $resource = array_get($module, 'name');
-        $default = array_get($module, 'default');
-        $router->group(['prefix' => $default ? '/' : $resource, 'middleware' => $middleware], function ($router) use ($controller) {
-            if (method_exists($controller, 'index')) {
-                $router->get('/', $controller . '@index');
-            }
-            if (method_exists($controller, 'create')) {
-                $router->get('/create', $controller . '@create');
-            }
-            if (method_exists($controller, 'store')) {
-                $router->post('/', $controller . '@store');
-            }
-            if (method_exists($controller, 'show')) {
-                $router->get('/{id}', $controller . '@show');
-            }
-            if (method_exists($controller, 'edit')) {
-                $router->get('/{id}/edit', $controller . '@edit');
-            }
-            if (method_exists($controller, 'update')) {
-                $router->put('/{id}', $controller . '@update');
-                $router->patch('/{id}', $controller . '@update');
-            }
-            if (method_exists($controller, 'destroy')) {
-                $router->delete('/{id}', $controller . '@destroy');
-            }
-        });
+        // RESTful路由(低版本中存在group覆盖问题)
+        $resource = rtrim(array_get($module, 'default') ? '/' : array_get($module, 'name'), '/');
+        if (method_exists($controller, 'index')) {
+            $router->get($resource . '/', ['uses' => "{$controller}@index", 'middleware' => $middleware]);
+        }
+        if (method_exists($controller, 'create')) {
+            $router->get($resource . '/create', ['uses' => "{$controller}@create", 'middleware' => $middleware]);
+        }
+        if (method_exists($controller, 'store')) {
+            $router->post($resource . '/', ['uses' => "{$controller}@store", 'middleware' => $middleware]);
+        }
+        if (method_exists($controller, 'show')) {
+            $router->get($resource . '/{id}', ['uses' => "{$controller}@show", 'middleware' => $middleware]);
+        }
+        if (method_exists($controller, 'edit')) {
+            $router->get($resource . '/{id}/edit', ['uses' => "{$controller}@edit", 'middleware' => $middleware]);
+        }
+        if (method_exists($controller, 'update')) {
+            $router->put($resource . '/{id}', ['uses' => "{$controller}@update", 'middleware' => $middleware]);
+            $router->patch($resource . '/{id}', ['uses' => "{$controller}@update", 'middleware' => $middleware]);
+        }
+        if (method_exists($controller, 'destroy')) {
+            $router->delete($resource . '/{id}', ['uses' => "{$controller}@destroy", 'middleware' => $middleware]);
+        }
     },
 
     // 复制文件(支持闭包)
