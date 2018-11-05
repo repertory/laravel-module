@@ -1,5 +1,25 @@
 <?php
 
+if (!function_exists('array_first_plus')) {
+    function array_first_plus($array, callable $callback = null, $default = null)
+    {
+        if (is_null($callback)) {
+            if (empty($array)) {
+                return value($default);
+            }
+            foreach ($array as $item) {
+                return $item;
+            }
+        }
+        foreach ($array as $key => $value) {
+            if (call_user_func($callback, $value, $key)) {
+                return $value;
+            }
+        }
+        return value($default);
+    }
+}
+
 if (!function_exists('str_replace_first')) {
     function str_replace_first($search, $replace, $subject)
     {
@@ -145,6 +165,7 @@ if (!function_exists('module')) {
         }
         // 保存模块信息到静态变量
         array_set($modules, $url, [
+            'default' => $default == $name,
             'name' => $name,
             'route' => $url,
             'subfix' => $subfix,
