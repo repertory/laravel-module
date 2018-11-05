@@ -15,7 +15,7 @@ return [
 
         // Controller路由
         $method = strtolower($_SERVER['REQUEST_METHOD']);
-        $action = camel_case(implode('_', [$method, array_first(array_get($module, 'subfix')) ?: 'index']));
+        $action = camel_case(implode('_', [$method, array_first_plus(array_get($module, 'subfix')) ?: 'index']));
         if (method_exists($controller, $action)) {
             $route = array_get($module, 'route');
             $router->$method($route, ['uses' => "{$controller}@{$action}", 'middleware' => $middleware]);
@@ -23,7 +23,8 @@ return [
 
         // RESTful路由
         $resource = array_get($module, 'name');
-        $router->group(['prefix' => $resource, 'middleware' => $middleware], function ($router) use ($controller) {
+        $default = array_get($module, 'default');
+        $router->group(['prefix' => $default ? '/' : $resource, 'middleware' => $middleware], function ($router) use ($controller) {
             if (method_exists($controller, 'index')) {
                 $router->get('/', $controller . '@index');
             }
