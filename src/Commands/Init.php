@@ -28,7 +28,7 @@ class Init extends Command
      */
     public function handle()
     {
-        $this->call('make:module', $this->arguments());
+        $this->call('make:module', ['name' => $this->argument('name')]);
     }
 
 }
