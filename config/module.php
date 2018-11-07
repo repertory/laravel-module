@@ -13,37 +13,63 @@ return [
         $middleware = array_get($module, 'composer.extra.laravel-module.middleware', []);
         $controller = array_get($module, 'controller');
 
-        // Controller路由
+        // Controller路由 参数
         $method = strtolower($_SERVER['REQUEST_METHOD']);
-        $action = camel_case(implode('_', [$method, array_first_plus(array_get($module, 'subfix')) ?: 'index']));
-        if (method_exists($controller, $action)) {
-            $route = array_get($module, 'route');
-            $router->$method($route, ['uses' => "{$controller}@{$action}", 'middleware' => $middleware]);
-        }
+        $action = camel_case(implode('_', [$method, array_first_plus(array_get($module, 'subfix')) ? : 'index']));
 
-        // RESTful路由(低版本中存在group覆盖问题)
-        $resource = rtrim(array_get($module, 'default') ? '/' : array_get($module, 'name'), '/');
-        if (method_exists($controller, 'index')) {
-            $router->get($resource . '/', ['uses' => "{$controller}@index", 'middleware' => $middleware]);
-        }
-        if (method_exists($controller, 'create')) {
-            $router->get($resource . '/create', ['uses' => "{$controller}@create", 'middleware' => $middleware]);
-        }
-        if (method_exists($controller, 'store')) {
-            $router->post($resource . '/', ['uses' => "{$controller}@store", 'middleware' => $middleware]);
-        }
-        if (method_exists($controller, 'show')) {
-            $router->get($resource . '/{id}', ['uses' => "{$controller}@show", 'middleware' => $middleware]);
-        }
-        if (method_exists($controller, 'edit')) {
-            $router->get($resource . '/{id}/edit', ['uses' => "{$controller}@edit", 'middleware' => $middleware]);
-        }
-        if (method_exists($controller, 'update')) {
-            $router->put($resource . '/{id}', ['uses' => "{$controller}@update", 'middleware' => $middleware]);
-            $router->patch($resource . '/{id}', ['uses' => "{$controller}@update", 'middleware' => $middleware]);
-        }
-        if (method_exists($controller, 'destroy')) {
-            $router->delete($resource . '/{id}', ['uses' => "{$controller}@destroy", 'middleware' => $middleware]);
+        // RESTful路由参数
+        $resource = array_get($module, 'default') ? '' : array_get($module, 'name');
+
+        // 路由列表
+        $actions = [
+            $action => [
+                'prefix' => '',
+                'route' => array_get($module, 'route'),
+                'method' => [$method]
+            ],
+            'index' => [
+                'prefix' => $resource,
+                'route' => '/',
+                'method' => ['get']
+            ],
+            'create' => [
+                'prefix' => $resource,
+                'route' => '/create',
+                'method' => ['get']
+            ],
+            'store' => [
+                'prefix' => $resource,
+                'route' => '/',
+                'method' => ['post']
+            ],
+            'show' => [
+                'prefix' => $resource,
+                'route' => '/{id}',
+                'method' => ['get']
+            ],
+            'edit' => [
+                'prefix' => $resource,
+                'route' => '/{id}/edit',
+                'method' => ['get']
+            ],
+            'update' => [
+                'prefix' => $resource,
+                'route' => '/{id}',
+                'method' => ['put', 'patch']
+            ],
+            'destroy' => [
+                'prefix' => $resource,
+                'route' => '/{id}',
+                'method' => ['delete']
+            ]
+        ];
+        foreach ($actions as $action => $option) {
+            if (method_exists($controller, $action)) {
+                foreach ($option['method'] as $method) {
+                    $route = $option['prefix'] . $option['route'];
+                    $router->$method($route, ['uses' => "{$controller}@{$action}", 'middleware' => $middleware]);
+                }
+            }
         }
     },
 
